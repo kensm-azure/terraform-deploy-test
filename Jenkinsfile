@@ -1,14 +1,10 @@
+Jenkinsfile (Declarative Pipeline)
 pipeline {
-    agent any
-    tools {
-        "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform"
-    }
-
+    agent { docker { image 'maven:3.3.3' } }
     stages {
-        stage('Terraform Init'){
+        stage('build') {
             steps {
-                    sh 'terraform --version'
-                }
+                sh 'mvn --version'
             }
         }
     }
