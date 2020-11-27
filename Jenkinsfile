@@ -75,8 +75,19 @@ pipeline{
 
         stage('Waiting for Approval'){
             steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    input (message: "Deploy the infrastructure?")
+               // timeout(time: 10, unit: 'MINUTES') {
+               //     input (message: "Deploy the infrastructure?")
+               // }
+                
+                script{
+                    def apply = false
+                    try {
+                        input message: 'confirm apply', ok: 'Apply Config'
+                        apply = true
+                    } catch (err) {
+                        apply = false
+                            sh "terraform destroy -auto-approve"
+                    }
                 }
             }
         
